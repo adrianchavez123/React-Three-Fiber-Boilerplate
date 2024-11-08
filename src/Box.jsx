@@ -1,25 +1,34 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 export default function Box({ position, name, wireframe }) {
   const ref = useRef();
+  const [hovered, setHover] = useState(false);
+
+  const [rotate, setRotate] = useState(false);
 
   useFrame((state, delta) => {
-    ref.current.rotation.x += 1 * delta;
-    ref.current.rotation.y += 0.5 * delta;
-    ref.current.position.y = Math.sin(state.clock.getElapsedTime() * 2) / 2;
+    if (rotate) {
+      ref.current.rotation.x += 1 * delta;
+      ref.current.rotation.y += 0.5 * delta;
+    }
   });
   return (
     <mesh
       position={position}
       name={name}
       ref={ref}
-      onPointerDown={(e) => console.log('pointer down' + e.object.name)}
-      onPointerUp={(e) => console.log('pointer up' + e.object.name)}
-      onPointerOver={(e) => console.log('pointer over' + e.object.name)}
-      onPointerOut={(e) => console.log('pointer out' + e.object.name)}
-      onUpdate={(self) => console.log(self)}>
+      scale={hovered ? [1.1, 1.1, 1.1] : [1, 1, 1]}
+      onPointerDown={() => setRotate(!rotate)}
+      //onPointerUp={(e) => console.log('pointer up' + e.object.name)}
+      onPointerOver={() => setHover(true)}
+      onPointerOut={() => setHover(false)}
+      // onUpdate={(self) => console.log(self)}
+    >
       <boxGeometry />
-      <meshBasicMaterial color={0x00ff00} wireframe={wireframe} />
+      <meshBasicMaterial
+        color={hovered ? 0xff0000 : 0x00ff00}
+        wireframe={wireframe}
+      />
     </mesh>
   );
 }
