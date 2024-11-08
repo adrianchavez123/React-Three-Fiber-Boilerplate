@@ -1,7 +1,10 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 export default function Box({ position, name, wireframe }) {
   const ref = useRef();
-  console.log(ref);
+
+  useEffect(() => {
+    console.log(ref);
+  });
   return (
     <mesh position={position} name={name} ref={ref}>
       <boxGeometry />
