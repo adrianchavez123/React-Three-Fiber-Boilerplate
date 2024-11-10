@@ -12,12 +12,10 @@ export default function App() {
         background
         backgroundBlurriness={0.5}
       />
-      <directionalLight
-        position={[3.3, 1.0, 4.4]}
-        intensity={4}></directionalLight>
+      <directionalLight position={[3.3, 1.0, 4.4]} intensity={4} />
       <primitive object={gltf.scene} position={[0, 1, 0]} />
 
-      <OrbitControls target={[0, 1, 0]} />
+      <OrbitControls target={[0, 1, 0]} autoRotate />
       <axesHelper args={[5]} />
       <Stats />
     </Canvas>
