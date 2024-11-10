@@ -7,7 +7,11 @@ export default function App() {
 
   return (
     <Canvas camera={{ position: [-0.5, 1, 2] }}>
-      <Environment preset="sunset" background backgroundBlurriness={0.5} />
+      <Environment
+        files="./img/venice_dawn_2_1k.hdr"
+        background
+        backgroundBlurriness={0.5}
+      />
       <directionalLight
         position={[3.3, 1.0, 4.4]}
         intensity={4}></directionalLight>
