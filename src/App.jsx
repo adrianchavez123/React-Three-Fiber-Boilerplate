@@ -10,7 +10,7 @@ import { Leva, useControls } from 'leva';
 
 function Model() {
   const { scene } = useLoader(GLTFLoader, '/models/scene.glb');
-
+  console.log(scene);
   const {
     x,
     y,
