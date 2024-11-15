@@ -11,23 +11,42 @@ export function Model(props) {
   });
 
   useControls('Shoe', () => {
-    const colorPickers = {};
-    Object.keys(materials).forEach((m) => {
-      colorPickers[m] = {
-        value: '#000000',
-        onChange: (v) => {
-          materials[m].color = new Color(v);
+    //using foreach
+    // const colorPickers = {};
+    // Object.keys(materials).forEach((m) => {
+    //   colorPickers[m] = {
+    //     value: '#000000',
+    //     onChange: (v) => {
+    //       materials[m].color = new Color(v);
+    //     }
+    //   };
+    // });
+    // return colorPickers;
+
+    //using reduce
+    return Object.keys(materials).reduce((acc, m) =>
+      Object.assign(acc, {
+        [m]: {
+          value:
+            '#' +
+            ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0'),
+          onChange: (v) => {
+            materials[m].color = new Color(v);
+          }
         }
-      };
-    });
-    return colorPickers;
+      })
+    );
   });
   return (
     <group
       {...props}
       dispose={null}
       onPointerOver={() => setHovered(true)}
-      onPointerOut={() => setHovered(false)}>
+      onPointerOut={() => setHovered(false)}
+      onClick={(e) => {
+        e.stopPropagation();
+        document.getElementById('Shoe.' + e.object.material.name).focus();
+      }}>
       <mesh geometry={nodes.shoe.geometry} material={materials.laces} />
       <mesh geometry={nodes.shoe_1.geometry} material={materials.mesh} />
       <mesh geometry={nodes.shoe_2.geometry} material={materials.caps} />
