@@ -1,9 +1,33 @@
+import { useState, useEffect } from 'react';
 import { useGLTF } from '@react-three/drei';
-
+import { useControls } from 'leva';
+import { Color } from 'three';
 export function Model(props) {
+  const [hovered, setHovered] = useState(false);
   const { nodes, materials } = useGLTF('./models/shoe-draco.glb');
+
+  useEffect(() => {
+    document.body.style.cursor = hovered ? 'pointer' : 'auto';
+  });
+
+  useControls('Shoe', () => {
+    const colorPickers = {};
+    Object.keys(materials).forEach((m) => {
+      colorPickers[m] = {
+        value: '#000000',
+        onChange: (v) => {
+          materials[m].color = new Color(v);
+        }
+      };
+    });
+    return colorPickers;
+  });
   return (
-    <group {...props} dispose={null}>
+    <group
+      {...props}
+      dispose={null}
+      onPointerOver={() => setHovered(true)}
+      onPointerOut={() => setHovered(false)}>
       <mesh geometry={nodes.shoe.geometry} material={materials.laces} />
       <mesh geometry={nodes.shoe_1.geometry} material={materials.mesh} />
       <mesh geometry={nodes.shoe_2.geometry} material={materials.caps} />
